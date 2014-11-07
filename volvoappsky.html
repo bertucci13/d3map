@@ -1,0 +1,462 @@
+
+<!doctype html>
+<html>
+<head>
+
+	<meta charset="utf-8" />
+	
+	<title>jQuery UI Carousel Plugin - touch extension - Richard Scarrott</title>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="skycarousel/jquery.sky.carousel-1.0.2.min.js"></script>
+
+
+	<link rel="stylesheet" type="text/css" href="skycarousel/css/skin.css" media="all" />
+	
+	<style type="text/css">
+
+	</style>	
+	<script>
+		// filename: jquery.touchify.js
+		
+		// adaption of Ross Posterous mouse -> touch events
+		// http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript
+		// TODO: don't prevent default (AKA scroll) for direction opposite to that set to draggable (pass in condition to options, may have to save state in private vars...)
+		// (function ($) {
+			
+		// 	$.fn.touchify = function() {
+			
+		// 		var touchHandler = function (e) {
+				
+		// 			var touches = e.changedTouches,
+		// 				first = touches[0],
+		// 				type = "",
+		// 				simulatedEvent,
+		// 				moved;
+					
+		// 			switch (e.type) {
+					
+		// 			case "touchstart":
+					
+		// 				type = "mousedown";
+		// 				moved = false;
+						
+		// 				break;
+					
+		// 			case "touchmove":
+					
+		// 				type = 'mousemove';
+		// 				moved = true;
+						
+		// 				break;
+						
+		// 			case 'touchend':
+						
+		// 				type = 'mouseup';
+		// 				moved = false;
+						
+		// 				break;
+							
+		// 				default: return;
+		// 			}
+					
+					// initMouseEvent(type, canBubble, cancelable, view, clickCount, 
+					//           screenX, screenY, clientX, clientY, ctrlKey, 
+					//           altKey, shiftKey, metaKey, button, relatedTarget);
+					
+		// 			simulatedEvent = document.createEvent('MouseEvent');
+		// 			simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+		// 									  first.screenX, first.screenY, 
+		// 									  first.clientX, first.clientY, false, 
+		// 									  false, false, false, 0/*left*/, null);
+					
+		// 			first.target.dispatchEvent(simulatedEvent);
+					
+		// 			if (moved) { // ensure anchor links aren't prevented
+		// 				e.preventDefault();
+		// 			}
+		// 		};
+			
+		// 		return this.each(function () {
+				
+		// 			this.addEventListener("touchstart", touchHandler, true);
+		// 			this.addEventListener("touchmove", touchHandler, true);
+		// 			this.addEventListener("touchend", touchHandler, true);
+		// 			this.addEventListener("touchcancel", touchHandler, true);
+								
+		// 		});
+				
+		// 	};
+			
+		// })(jQuery);
+		
+	</script>
+	
+	<script>
+		/* filename jquery-ui-touchCarousel.js
+		
+		(function ($, undefined) {
+		
+			var _super = $.ui.carousel.prototype;
+			
+			$.widget('ui.touchCarousel', $.ui.carousel, {
+			
+				options: {
+					sensitivity: 0.8
+				},
+				
+				_create: function () {
+					
+					_super._create.apply(this);
+					
+					var self = this;
+					
+					this._setAxis();
+				
+					this.elements.runner
+						.touchify() // maps draggables mouse events to touch events
+						.draggable({
+							axis: this.axis,
+							start: function (e) {
+								e = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
+								self._dragStartHandler(e);
+							},
+							stop: function (e) {	
+								e = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
+								self._dragStopHandler(e);
+							}
+								
+						});
+					
+				},
+				
+				_setAxis: function () {
+					
+					this.axis = this.horizontal ? 'x' : 'y';
+				
+				},
+				
+				_dragStartHandler: function (e) {
+				
+					this.startTime = this._getTime();
+					
+					this.startPos = {
+						x: e.pageX,
+						y: e.pageY
+					};
+				
+				},
+				
+				_dragStopHandler: function (e) {
+				
+					var time,
+						distance,
+						speed,
+						direction;
+						
+					// if touch direction changes start date should prob be reset to correctly determine speed...
+					this.endTime = this._getTime();
+					
+					time = this.endTime - this.startTime;
+					
+					this.endPos = {
+						x: e.pageX,
+						y: e.pageY
+					};
+					
+					distance = Math.abs(this.startPos[this.axis] - this.endPos[this.axis]);
+					speed = distance / time;
+					
+					direction = this.startPos[this.axis] > this.endPos[this.axis] ? 'next' : 'prev';
+					
+					if (speed > this.options.sensitivity || distance > (this.itemDim * this._getitemsPerTransition() / 2)) {
+						this[direction]();
+					}
+					else {
+						this.goTo(this.itemIndex); // go to current element
+					}
+				
+				},
+				
+				_getTime: function () {
+					
+					var date = new Date();
+					return date.getTime();
+				
+				},
+				
+				_setOption: function (option, value) {
+				
+					_super._setOption.apply(this, arguments);
+					
+					switch (option) {
+						
+					case 'orientation':
+						
+						this._setAxis();
+						this._switchAxis();
+						
+						break;
+					
+					}
+					
+				},
+				
+				_switchAxis: function () {
+				
+					this.elements.runner.draggable('option', 'axis', this.axis);
+				
+				},
+				
+				_destroy: function () {
+					
+					_super._destroy.apply(this);
+					
+					this.elements.runner.draggable('destroy');
+					
+					// must destroy touchify events...$.fn.untouchify?
+					
+				}
+				
+			});
+		
+		})(jQuery);
+		*/
+		
+	</script>
+	
+	<script type="text/javascript">
+	
+		/* this demo JS has def become ridiculous
+	
+		var demo = {
+				
+			init: function(view) {
+			
+				this.view = view;
+				this.elements();
+				this.events();
+				
+				this.elements.initBtn.click();
+			
+			},
+			
+			elements: function() {
+			
+				var view = this.view,
+					form;
+					
+				this.elements = {};
+			
+				// this.elements.carousel = view.find('#my-carousel-1');
+				this.elements.carousel = view.find('#carousel');
+				
+				form = this.elements.form = view.find('form');
+				this.elements.inputs = form.find(':checkbox, select');
+				this.elements.initBtn = form.find('#init');
+				this.elements.destroyBtn = form.find('#destroy');
+				
+			
+			},
+			
+			events: function() {
+			
+				var self = this,
+					elems = this.elements,
+					carousel = elems.carousel;
+					
+				elems.inputs.change(function() {
+					
+					var input = $(this),
+						option = this.name;
+						
+					value = self.getValueAsOption(input);
+					
+					carousel.touchCarousel('option', option, value);
+					
+				});
+				
+				elems.initBtn.click(function(e) {
+					e.preventDefault();
+					
+					$('body').removeClass('no-js');
+					// get form values
+					
+					var opts = {};
+					
+					elems.inputs.each(function() {
+						
+						opts[this.name] = self.getValueAsOption($(this));
+						
+					});
+					
+					carousel.touchCarousel(opts);
+				});
+				
+				elems.destroyBtn.click(function(e) {
+					e.preventDefault();
+					
+					$('body').addClass('no-js');
+					carousel.touchCarousel('destroy');
+				});
+			},
+			
+			// ensures option are correct type (not always string)
+			getValueAsOption: function(input) {
+			
+				var value,
+					integer;
+				
+				if (input.is(':checkbox')) {
+					if (input.is(':checked')) {
+						value = true;
+					}
+					else {
+						value = false;
+					}
+				}
+				else {
+					value = input[0].value;
+				}
+				
+				// ensure numbers are of type number
+				integer = parseInt(value, 10);
+				if (!isNaN(integer)) {
+					value = integer;
+				}
+					
+				return value;
+				
+			}
+				
+		};
+		
+		
+	
+		$(document).ready(function() {
+		
+			$('body').removeClass('no-js');
+			
+		    demo.init($('#container'));
+			
+		});
+*/
+// itemWidth: 500,
+			// itemHeight: 200,
+			// distance: 0,
+			// selectedItemDistance: 15,
+			// selectedItemZoomFactor: 0.60,
+			// unselectedItemZoomFactor: 0.5,
+			// unselectedItemAlpha: 0.6,
+			// motionStartDistance: 210,
+			// topMargin: 115,
+			// gradientStartPoint: 0.35,
+			// gradientOverlayColor: "#ebebeb",
+			// gradientOverlaySize: 190,
+			// selectByClick: false
+
+$(function() {
+	$('#carousel').carousel({
+			
+
+
+		itemWidth: 500,
+        itemHeight: 200,
+        distance: 0,
+        startIndex: "auto",
+        enableKeyboard: !0,
+        enableMouseWheel: !0,
+        reverseMouseWheel: !1,
+        autoSlideshow: !1,
+        autoSlideshowDelay: 2.5,
+        loop: !0,
+        selectedItemDistance: 15,
+        selectedItemZoomFactor: 0.60,
+        unselectedItemZoomFactor: 0.5,
+        unselectedItemAlpha: 0.6,
+        motionStartDistance: 210,
+        topMargin: 0,
+        preload: !0,
+        showPreloader: !0,
+        navigationButtonsVisible: !0,
+        gradientStartPoint: 0.35,
+        gradientEndPoint: 1,
+        gradientOverlayVisible: !0,
+        gradientOverlayColor: "#fff",
+        gradientOverlaySize: 215,
+        reflectionVisible: !1,
+        reflectionDistance: 4,
+        reflectionSize: 100,
+        reflectionAlpha: 0.38,
+        slideSpeed: .45,
+        selectByClick: !1,
+        canvasSupport: true
+
+	});
+});
+
+	</script>
+	
+
+	<style type="text/css">
+	h1.title { 
+		position: absolute;
+		top:0;
+	width:100%; 
+	height: 100%; 
+	padding-top:50px; 
+	text-align: center; 
+	color:#fff; 
+	font-size: 18px;
+	margin:0; 
+	font-family: Helvetica, arial, sans-serif;
+}
+	</style>
+</head>
+<body class="no-js">
+<div id="carousel" class="sky-carousel">
+	<div class="sky-carousel-wrapper">
+		<ul class="sky-carousel-container">
+			<li>
+				<h1 class="title">Content</h1>
+				<img src="skycarousel/volvoapp.png" alt="" />
+<!-- 				<div class="sc-content">
+					<h2>Peter Bell</h2>
+					<p>Software Developer</p>
+				</div> -->
+			</li>
+			<li>
+				<img src="skycarousel/volvoapp.png" alt="" />
+<!-- 				<div class="sc-content">
+					<h2>Adam Rose</h2>
+					<p>Graphic Designer</p>
+				</div> -->
+			</li>
+			<li>
+				<img src="skycarousel/volvoapp.png" alt="" />
+<!-- 				<div class="sc-content">
+					<h2>Josh Coil</h2>
+					<p>Chief Editor</p>
+				</div> -->
+			</li>							
+			<li>
+				<img src="skycarousel/volvoapp.png" alt="" />
+<!-- 				<div class="sc-content">
+					<h2>Richard Will</h2>
+					<p>Support Manager</p>
+				</div> -->
+			</li>
+			<li>
+				<img src="skycarousel/volvoapp.png" alt="" />
+<!-- 				<div class="sc-content">
+					<h2>Steve Goldman</h2>
+					<p>Marketing Manager</p>
+				</div> -->
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <!-- // <script src="http://d3js.org/d3.v3.min.js"></script> -->
+    <!-- // <script src="http://d3js.org/topojson.v0.min.js"></script> -->
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+
+    <style type="text/css">
+
+body {
+  background: #192887;
+}
+
+.graticule {
+  fill: none;
+  stroke: #000;
+  stroke-width: 0px;
+}
+
+.land {
+  fill: #0582b2;
+}
+
+.dot {
+	opacity: 0.7;
+  fill: #0582b2;
+}
+
+.ring {
+  fill: none;
+  stroke: #0582b2;
+}
+
+/*.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}*/
+
+.land {
+  fill: #222;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0px;
+}
+/*RESET*/
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;	padding:0;	border:0;	font-size:100%;	font:inherit;	vertical-align:baseline;}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}
+body{line-height:1;}
+ol,ul{list-style:none;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+a,a:link,a:active,a:visited,a:hover{text-decoration:none;}
+
+/*TRACKER DEFAULT*/
+html,body{height:100%;font-family:Arial, Helvetica, sans-serif;font-size:11px;background-color:#12191F;}
+a,a:link,a:active,a:visited,a:hover{color:#000000;}
+strong{font-weight:bold;}
+
+#page{position:relative;width:100%;height:100%;}
+  #page>div{position:absolute;}
+
+#logo{left:0;top:0;background:transparent url(img/logo.png) no-repeat left top;background-size:auto 100%;width:283px;height:108px;}
+#alicante{right:0;top:0;background:transparent url(img/alicante.png) no-repeat right top;background-size:auto 100%;width:270px;height:108px;}
+#logo2{bottom:0;right:0;width:100px;height:94px;background:transparent url(img/logo2.png) no-repeat right top;background-size:auto 100%;}
+
+#currenttime{left:120px;top:75px;font-size:18px;color:rgba(255,255,255,0.8);}
+
+#sig {top:110px;left:0px;right:0px;bottom:120px;overflow:hidden;}
+		
+#map{position:relative!important;background-color:red;}
+
+#ground{}
+#lands{width:100%;height:100%;background-color:#FFFFFF;}
+
+.land{fill:#37424B;}
+.track{fill:none;}
+
+
+#timeline{left:0px;bottom:100px;right:0px;height:20px;border-bottom:1px solid rgba(255,255,255,0.1);background-color:rgba(255,255,255,0);}
+	#axis {position:relative;margin-left:20px;margin-right:20px;height:100%;}     
+	/*#axis:after {background:none repeat scroll 0 0 #000000;content:"";display:block;height:1px;position:absolute;top:50%;width:100%;z-index:2;}*/
+		#cursor {position:absolute;background-color:#B31806;height:20px;width:40px;top:50%;margin-top:-10px;margin-left:-20px;left:0%;z-index:3000;cursor:pointer;}
+		#cursor:before {background:none repeat scroll 0 0 rgba(0,0,0,0.5);content:"";display:block;height:100%;position:absolute;top:0;left:19px;width:2px;z-index:2;}
+
+@media screen and (max-width:550px) {
+	#logo{height:72px}
+	#logo2{height:72px;background-size:auto 100%;}
+  #alicante{display:none;}
+	#currenttime{left:80px;top:50px;font-size:16px;}
+  #sig {top:74px;bottom:92px;}
+	#timeline{bottom:72px;}
+}
+
+
+@media screen and (max-height:400px) {
+	#logo{height:72px}
+	#logo2{display:none;}
+  #alicante{height:72px;}
+  #sig {top:74px;bottom:20px;}
+	#timeline{bottom:2px;}
+}
+#mapContainer {
+		max-width: 1024px;
+		margin:0;
+		padding:0px;
+		border:0px solid #d0d0d0;
+	}
+/*#mapContainer
+  {
+    overflow: hidden;
+    width:100%;
+    height:100%;
+  }*/
+
+</style>
+
+</head>
+<body onload="sizeChange()">
+
+
+
+<div id="mapContainer"></div>
+
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script> -->
+<script>
+
+// var width = 100,
+//     height = 480;
+
+// var projection = d3.geo.equirectangular()
+//     .scale(153)
+//     .translate([width / 2, height / 2])
+//     .precision(.1);
+
+// var path = d3.geo.path()
+//     .projection(projection);
+
+// var graticule = d3.geo.graticule();
+
+// var svg = d3.select("body").append("svg")
+//     .attr("width", "100%")
+//     .attr("height", "100%");
+
+// svg.append("path")
+//     .datum(graticule)
+//     .attr("class", "graticule")
+//     .attr("d", path);
+
+// d3.json("world-50m.json", function(error, world) {
+//   svg.insert("path", ".graticule")
+//       .datum(topojson.feature(world, world.objects.land))
+//       .attr("class", "land")
+//       .attr("d", path);
+
+//   svg.insert("path", ".graticule")
+//       .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+//       .attr("class", "boundary")
+//       .attr("d", path);
+// });
+
+// d3.select(self.frameElement).style("height", height + "px");
+
+
+
+	
+var width = 960,
+    height = 540;
+
+// var projection = d3.geo.mercator()
+//     .center([113, -3])
+//     .scale(1275)
+//     .translate([width / 2, height / 2])
+//     .clipExtent([[0, 0], [width, height]])
+//     .precision(.1);
+// var projection = d3.geo.miller()
+//     .scale(153);
+    //.translate([width / 2, height / 2])
+	//.clipExtent([[0, 0], [width, height]])
+    // .precision(.1);
+
+// var path = d3.geo.path()
+//     .projection(projection);
+
+// var graticule = d3.geo.graticule()
+//     .step([5, 5]);
+
+// var svg = d3.select("#mapContainer").append("svg")
+    //.attr("width", width)
+    //.attr("height", height)
+   //  .attr("class", "mapContainer")
+  	// .attr("transform", "translate(" + padding.left + "," + padding.top + ")");
+	
+	d3.select(window)
+    		.on("resize", sizeChange);
+
+	var projection = d3.geo.miller()
+		// .scale(150);
+		.center([20, 10 ])
+    .scale(126)
+    .rotate([0,0]);
+    //.rotate([-180,0]);
+
+	var path = d3.geo.path()
+		.projection(projection);
+	
+	var graticule = d3.geo.graticule()
+    .step([5, 5]);
+
+	var svg = d3.select("#mapContainer")
+		.append("svg").attr("height", height)
+    		.append("g");
+
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+
+d3.json("world-50m.json", function(error, world) {
+  svg.insert("path", ".graticule")
+      .datum(topojson.feature(world, world.objects.land))
+      .attr("class", "land")
+      .attr("d", path);
+
+  svg.insert("path", ".graticule")
+      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+      .attr("class", "boundary")
+      .attr("d", path);
+});
+
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+
+
+var data = [{x:29,y:100, r:18}, {x:29,y:10}, {x:-8,y:100},{x:-10,y:110},{x: -12,y:120}];
+
+// svg.selectAll("circle.node")
+//     .data(data)
+//     .enter()
+//     .append("circle")
+//     .attr("class","dot")
+    // .attr("transform",translateCircle)
+    //.style("fill", function(d) { return color(data.r); })
+    //.attr("r",18).call(force.drag);    
+ 
+ // var node = svg.selectAll("circle.node")
+ //       .data(json.nodes)
+ //     .enter().append("circle")
+ //       .attr("class", "node")
+ //       .attr("r", 5)
+ //       .style("fill", function(d) { return color(d.group); })
+ //       .call(force.drag);    
+          
+function translateCircle(datum, index)
+          {
+            return "translate(" +  projection([datum.y, datum.x]) + ")";
+          };
+
+			// setInterval(function(){
+	  //     data.forEach(function(datum)
+   //        {
+			//   svg
+			//   	.append("circle")
+			//       .attr("class", "ring")
+			//       .attr("transform", translateCircle(datum))
+			//       .attr("r", 6)
+			//       .style("stroke-width", 6)
+			//       .style("stroke", "#0582b2")
+			//     .transition()
+			//       .ease("linear")
+			//       .duration(6000)
+			//       .style("stroke-opacity", 1e-6)
+			//       .style("stroke-width", 1)
+			//       .style("stroke", "#0582b2")
+			//       .attr("r", 160)
+			//       .remove();
+   //        })
+   //    }, 1750)
+
+function sizeChange() {
+	    d3.select("g").attr("transform", "scale(" + $("#mapContainer").width()/900 + ")");
+	    //$("svg").height($("#mapContainer").width()*0.618);
+	}
+   
+  
+d3.select(self.frameElement).style("height", height + "px");	
+</script>

@@ -1,0 +1,740 @@
+
+<!doctype html>
+<html>
+<head>
+
+	<meta charset="utf-8" />
+	
+	<title>jQuery UI Carousel Plugin - touch extension - Richard Scarrott</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/demo.css" media="all" />
+	
+	<style type="text/css">
+	#container{position: absolute; top:0; height: 100%; width: 100%;}
+#carousel {
+	width: 100%;
+	height:100%;
+	margin: 0em auto;
+	overflow: hidden;
+	border: 0px solid gray;
+	position: fixed;
+	top: 0;
+}
+
+#carousel-wrapper {
+    height: 100px;
+    width: 1500px;
+    position: relative;
+    background: silver;
+}
+
+div.item {
+    height: 100%;
+    line-height: 100px;
+    text-align: center;
+    width: 200px;
+    margin-right: 1em;
+    background: yellow;
+    float: left;
+}
+
+#carousel-nav {
+    margin: 1em 0;
+    text-align: center;
+}
+
+#carousel-nav a {
+    color: #fff;
+    background: #000;
+    padding: 0.2em 0.5em;
+    text-decoration: none;
+    margin-right: 1em;
+}​
+
+
+
+		/* carousel */
+		.ui-carousel .mask,
+		.ui-touchCarousel .mask {
+/*		    position:relative;
+		    overflow:hidden;
+		    border:6px solid #444;*/
+overflow: hidden;
+height: 100%;
+width: 100%;
+position: fixed;
+		}
+		
+			.ui-carousel ul,
+			.ui-touchCarousel ul {
+				position: absolute;
+				overflow: hidden;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				width: 100%;
+			}
+
+			.no-js .ui-carousel ul,
+			.no-js .ui-touchCarousel ul {
+				position: static;
+			}
+			
+				.ui-carousel ul li,
+				.ui-touchCarousel ul li {
+/*					float: left;
+					width: 150px;
+					height: 150px;
+					color: #fff;
+					font-size: 8em;
+					text-align: center;
+					margin: 0;*/
+					display: block;
+					height:100px;
+					width:100%;
+				}
+		
+				.ui-carousel.ui-carousel-vertical ul li,
+				.ui-touchCarousel.ui-touchCarousel-vertical ul li {
+					float: none;
+				}
+		
+		/* pagination */
+		.ui-carousel .pagination-links,
+		.ui-touchCarousel .pagination-links {
+		    list-style: none;
+		    margin: 0;
+		    padding: 0;
+		}
+		 
+			.ui-carousel .pagination-links li,
+			.ui-touchCarousel .pagination-links li {
+				display: inline;
+			}
+
+				.ui-carousel .pagination-links a,
+				.ui-touchCarousel .pagination-links a {
+					padding: 2px 6px;	
+				}
+
+				.ui-carousel .pagination-links a:hover,
+				.ui-touchCarousel .pagination-links a:hover {
+					text-decoration: none;
+				}
+
+				.ui-carousel .pagination-links li.current a,
+				.ui-touchCarousel .pagination-links li.current a {
+					 background: #444;
+					 color: #fff;
+				}
+		 
+				.ui-carousel .disabled,
+				.ui-touchCarousel .disabled {
+					color: gray;
+					cursor: default;
+				}
+				
+				.ui-carousel .pagination-links.void,
+				.ui-touchCarousel .pagination-links.void {
+					display: none;
+				}
+				
+		/** next & prev actions **/
+		.ui-carousel .next.void,
+		.ui-touchCarousel .next.void,
+		.ui-carousel .prev.void,
+		.ui-touchCarousel .prev.void {
+			display: none;
+		}
+		
+		.prev,.next {position:fixed; top:0; width:100%; z-index:1}
+		
+		
+		
+		
+		/** my carousel 1 **/
+		
+		/** horizontal **/
+		#my-carousel-1 {}
+		
+			/** items per page **/
+			#my-carousel-1.ui-carousel-items-1 .mask,
+			#my-carousel-1.ui-touchCarousel-items-1 .mask {
+				width: 150px;
+			}
+			
+			#my-carousel-1.ui-carousel-items-2 .mask,
+			#my-carousel-1.ui-touchCarousel-items-2 .mask {
+				width: 300px;
+			}
+			
+			#my-carousel-1.ui-carousel-items-3 .mask,
+			#my-carousel-1.ui-touchCarousel-items-3 .mask {
+				width: 450px;
+			}
+			
+			#my-carousel-1.ui-carousel-items-4 .mask,
+			#my-carousel-1.ui-touchCarousel-items-4 .mask {
+				width: 600px;
+			}
+			
+			/** no of rows **/
+			#my-carousel-1.ui-carousel-rows-1 .mask,
+			#my-carousel-1.ui-touchCarousel-rows-1 .mask {
+				height: 150px;
+			}
+			
+			#my-carousel-1.ui-carousel-rows-2 .mask,
+			#my-carousel-1.ui-touchCarousel-rows-2 .mask {
+				height: 300px;
+			}
+			
+			#my-carousel-1.ui-carousel-rows-3 .mask,
+			#my-carousel-1.ui-touchCarousel-rows-3 .mask {
+				height: 450px;
+			}
+		
+		/** vertical **/
+		#my-carousel-1.ui-carousel-vertical .mask,
+		#my-carousel-1.ui-touchCarousel-vertical .mask {
+			width: 150px;
+		}
+		
+			/** items per page **/
+			#my-carousel-1.ui-carousel-vertical.ui-carousel-items-1 .mask,
+			#my-carousel-1.ui-touchCarousel-vertical.ui-touchCarousel-items-1 .mask {
+				height: 150px;
+			}
+			
+			#my-carousel-1.ui-carousel-vertical.ui-carousel-items-2 .mask,
+			#my-carousel-1.ui-touchCarousel-vertical.ui-touchCarousel-items-2 .mask {
+				height: 300px;
+			}
+			
+			#my-carousel-1.ui-carousel-vertical.ui-carousel-items-3 .mask,
+			#my-carousel-1.ui-touchCarousel-vertical.ui-touchCarousel-items-3 .mask {
+				height: 450px;
+			}
+			
+			#my-carousel-1.ui-carousel-vertical.ui-carousel-items-4 .mask,
+			#my-carousel-1.ui-touchCarousel-vertical.ui-touchCarousel-items-4 .mask {
+				height: 600px;
+			}
+
+		
+		
+		
+		
+		
+		.color-1 {background:#12191F;}
+		.color-2 {background:#37424B;}
+		.color-3 {background:#12191F;}
+		.color-4 {background:#37424B;}
+		.color-5 {background:#12191F;}
+		.color-6 {background:#12191F;}
+		.color-7 {background:#12191F;}
+		
+		.field,
+		.actions {
+			margin: 20px;
+		}
+		
+		.action-set .action {
+			display: inline;
+		}
+		
+		ul.base,
+		ol.base {
+			list-style: none;
+			padding: 0;
+		}
+
+
+body, html {margin:0; padding:0;height:100%; width:100%; position:absolute; top:0;}
+		h1.title { 
+	width:100%; 
+	height: 100%; 
+	padding-top:0px; 
+	text-align: center; 
+	color:#fff; 
+	font-size: 18px;
+	margin:0; 
+	font-family: Helvetica, arial, sans-serif;
+}
+	</style>
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+	<!-- // <script type="text/javascript" src="js/jquery.js"></script> -->
+	<!-- // <script type="text/javascript" src="js/jquery-ui-1.8.11.custom.min.js"></script> -->
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<!--script type="text/javascript" src="js/jquery.ui.widget.js"></script-->
+	<script type="text/javascript" src="dist/js/jquery.ui.carousel.js"></script>
+	<!-- // <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jcarousel/0.5.0/jquery.jcarousel.min.js"></script> -->
+	
+	
+	<script>
+		// filename: jquery.touchify.js
+		
+		// adaption of Ross Posterous mouse -> touch events
+		// http://ross.posterous.com/2008/08/19/iphone-touch-events-in-javascript
+		// TODO: don't prevent default (AKA scroll) for direction opposite to that set to draggable (pass in condition to options, may have to save state in private vars...)
+		(function ($) {
+			
+			$.fn.touchify = function() {
+			
+				var touchHandler = function (e) {
+				
+					var touches = e.changedTouches,
+						first = touches[0],
+						type = "",
+						simulatedEvent,
+						moved;
+					
+					switch (e.type) {
+					
+					case "touchstart":
+					
+						type = "mousedown";
+						moved = true;
+						
+						break;
+					
+					case "touchmove":
+					
+						type = 'mousemove';
+						moved = true;
+						
+						break;
+						
+					case 'touchend':
+						
+						type = 'mouseup';
+						moved = false;
+						
+						break;
+							
+						default: return;
+					}
+					
+					// initMouseEvent(type, canBubble, cancelable, view, clickCount, 
+					//           screenX, screenY, clientX, clientY, ctrlKey, 
+					//           altKey, shiftKey, metaKey, button, relatedTarget);
+					
+					simulatedEvent = document.createEvent('MouseEvent');
+					simulatedEvent.initMouseEvent(type, true, true, window, 1, 
+											  first.screenX, first.screenY, 
+											  first.clientX, first.clientY, false, 
+											  false, false, false, 0/*left*/, null);
+					
+					first.target.dispatchEvent(simulatedEvent);
+					console.log(simulatedEvent);
+					if (moved) { // ensure anchor links aren't prevented
+						e.preventDefault();
+					}
+				};
+			
+				return this.each(function () {
+				
+					this.addEventListener("touchstart", touchHandler, true);
+					this.addEventListener("touchmove", touchHandler, true);
+					this.addEventListener("touchend", touchHandler, true);
+					this.addEventListener("touchcancel", touchHandler, true);
+								
+				});
+				
+			};
+			
+		})(jQuery);
+		
+	</script>
+	
+	<script>
+		// filename jquery-ui-touchCarousel.js
+		
+		(function ($, undefined) {
+		
+			var _super = $.ui.carousel.prototype;
+			
+			$.widget('ui.touchCarousel', $.ui.carousel, {
+			
+				options: {
+					sensitivity: 0.1,
+					speed: "fast",
+					easing: 'easeInQuint',
+					startAt:0,
+				},
+				
+				_create: function () {
+					
+					_super._create.apply(this);
+					
+					var self = this;
+					
+					this._setAxis();
+				
+					this.elements.runner
+						.touchify() // maps draggables mouse events to touch events
+						.draggable({
+							//containment: this.view,
+							axis: this.axis,
+							start: function (e) {
+								console.log(e);
+								e = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
+								self._dragStartHandler(e);
+							},
+							stop: function (e) {	
+								e = e.originalEvent.touches ? e.originalEvent.touches[0] : e;
+								self._dragStopHandler(e);
+							}
+								
+						});
+					
+				},
+				
+				_setAxis: function () {
+					
+					this.axis = this.horizontal ? 'x' : 'y';
+				
+				},
+				
+				_dragStartHandler: function (e) {
+				
+					this.startTime = this._getTime();
+					console.log(e);
+					this.startPos = {
+						x: e.pageX,
+						y: e.pageY
+					};
+				
+				},
+				
+				_dragStopHandler: function (e) {
+				
+					var time,
+						distance,
+						speed,
+						direction;
+						
+					// if touch direction changes start date should prob be reset to correctly determine speed...
+				// 	this.endTime = this._getTime();
+					
+				// 	time = this.endTime - this.startTime;
+					
+				// 	this.endPos = {
+				// 		x: e.pageX,
+				// 		y: e.pageY
+				// 	};
+					
+				// 	distance = Math.abs(this.startPos[this.axis] - this.endPos[this.axis]);
+				// 	speed = distance / time;
+					
+				// 	direction = this.startPos[this.axis] > this.endPos[this.axis] ? 'next' : 'prev';
+					
+				// 	if (speed > this.options.sensitivity || distance > (this.itemDim * this._getitemsPerTransition() / 2)) {
+				// 		this[direction]();
+				// 	}
+				// 	else {
+				// 		this.goTo(this.itemIndex); // go to current element
+				// 	}
+				
+				 },
+				
+				_getTime: function () {
+					
+					var date = new Date();
+					return date.getTime();
+				
+				},
+				
+				_setOption: function (option, value) {
+				
+					_super._setOption.apply(this, arguments);
+					
+					switch (option) {
+						
+					case 'orientation':
+						
+						this._setAxis();
+						this._switchAxis();
+						
+						break;
+					
+					}
+					
+				},
+				
+				_switchAxis: function () {
+				
+					this.elements.runner.draggable('option', 'axis', this.axis);
+				
+				},
+				
+				_destroy: function () {
+					
+					_super._destroy.apply(this);
+					
+					this.elements.runner.draggable('destroy');
+					
+					// must destroy touchify events...$.fn.untouchify?
+					
+				}
+				
+			});
+		
+		})(jQuery);
+		
+		
+	</script>
+	
+	<script type="text/javascript">
+	
+		// this demo JS has def become ridiculous
+	
+		var demo = {
+				
+			init: function(view) {
+			
+				this.view = view;
+				this.elements();
+				this.events();
+				
+				this.elements.initBtn.click();
+			
+			},
+			
+			elements: function() {
+			
+				var view = this.view,
+					form;
+					
+				this.elements = {};
+			
+				// this.elements.carousel = view.find('#my-carousel-1');
+				this.elements.carousel = view.find('#carousel');
+				
+				form = this.elements.form = view.find('form');
+				this.elements.inputs = form.find(':checkbox, select');
+				this.elements.initBtn = form.find('#init');
+				this.elements.destroyBtn = form.find('#destroy');
+				
+			
+			},
+			
+			events: function() {
+			
+				var self = this,
+					elems = this.elements,
+					carousel = elems.carousel;
+					
+				elems.inputs.change(function() {
+					
+					var input = $(this),
+						option = this.name;
+						
+					value = self.getValueAsOption(input);
+					
+					carousel.touchCarousel('option', option, value);
+					
+				});
+				
+				elems.initBtn.click(function(e) {
+					e.preventDefault();
+					
+					$('body').removeClass('no-js');
+					// get form values
+					
+					var opts = {};
+					
+					elems.inputs.each(function() {
+						
+						opts[this.name] = self.getValueAsOption($(this));
+						
+					});
+					
+					carousel.touchCarousel(opts);
+				});
+				
+				elems.destroyBtn.click(function(e) {
+					e.preventDefault();
+					
+					$('body').addClass('no-js');
+					carousel.touchCarousel('destroy');
+				});
+			},
+			
+			// ensures option are correct type (not always string)
+			getValueAsOption: function(input) {
+			
+				var value,
+					integer;
+				
+				if (input.is(':checkbox')) {
+					if (input.is(':checked')) {
+						value = true;
+					}
+					else {
+						value = false;
+					}
+				}
+				else {
+					value = input[0].value;
+				}
+				
+				// ensure numbers are of type number
+				integer = parseInt(value, 10);
+				if (!isNaN(integer)) {
+					value = integer;
+				}
+					
+				return value;
+				
+			}
+				
+		};
+		
+		
+	
+		$(document).ready(function() {
+		
+			$('body').removeClass('no-js');
+			
+		    demo.init($('#container'));
+			
+		});
+	</script>
+	
+</head>
+<body class="no-js">
+	<div id="container">
+	
+		<!-- <h1>jQuery UI Carousel Plugin - touch extension</h1> -->
+		
+		<form class="module" >
+			<div class="field">
+				<label for="orientation">orientation:</label>
+				<select id="orientation" name="orientation">
+					<option value="horizontal">horizontal</option>
+					<option value="vertical" selected="selected">vertical</option>
+				</select>
+			</div>
+
+			<div class="field">
+				<label for="itemsPerPage">itemsPerPage:</label>
+				<select id="itemsPerPage" name="itemsPerPage">
+					<option value="auto">auto</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4" selected="selected">4</option>
+				</select>
+			</div>
+			
+			<div class="field">
+				<label for="itemsPerTransition">itemsPerTransition:</label>
+				<select id="itemsPerTransition" name="itemsPerTransition">
+					<option value="auto" >auto</option>
+					<option value="1" selected="selected">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+				</select>
+			</div>
+			
+			<div class="field">
+				<label for="noOfRows">noOfRows:</label>
+				<select id="noOfRows" name="noOfRows">
+					<option value="1" selected="selected">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+				</select>
+			</div>
+			
+			<div class="field">
+				<label for="pagination">pagination:</label>
+				<input type="checkbox" id="pagination" name="pagination"  />
+			</div>
+			
+			<div class="field">
+				<label for="nextPrevActions">nextPrevActions:</label>
+				<input type="checkbox" id="nextPrevActions" name="nextPrevActions" checked />
+			</div>
+			
+			<div class="actions">
+				<ul class="action-set base">
+					<li class="action">
+						<input type="button" id="init" name="init" value="init" />
+					</li>
+					<li class="action">
+						<input type="button" id="destroy" name="destroy" value="destroy" />
+					</li>
+				</ul>
+				
+			</div>
+		</form>
+		
+<!-- 		<div id="my-carousel-1" class="ui-carousel module">
+ -->		<div id="carousel" class="carousel">
+			<ul>
+<!-- 				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li>
+				<li class="color-1">fdsafsdfsd</li> -->
+				<li class="color-4"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-6"><h1 class="title">Tom Smith</h1></li>
+				<li class="color-2"><h1 class="title">Overral Positions</h1></li>
+				<li class="color-3"><h1 class="title">Staff Tips triathlon</h1></li>
+				<li class="color-1"><h1 class="title">Why I love the race</h1></li>
+				<li class="color-5"><h1 class="title">Follow the Race</h1></li>
+				<li class="color-2"><h1 class="title">New Skipper</h1></li>
+				<li class="color-1"><h1 class="title">Live From Race Control</h1></li>
+				<li class="color-4"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-6"><h1 class="title">Tom Smith</h1></li>
+				<li class="color-2"><h1 class="title">Overral Positions</h1></li>
+				<li class="color-2"><h1 class="title">Staff Tips triathlon</h1></li>
+				<li class="color-2"><h1 class="title">Why I love the race</h1></li>
+				<li class="color-2"><h1 class="title">Overral Positions</h1></li>
+				<li class="color-2"><h1 class="title">Staff Tips triathlon</h1></li>
+				<li class="color-2"><h1 class="title">Why I love the race</h1></li>
+				<li class="color-2"><h1 class="title">Overral Positions</h1></li>
+				<li class="color-2"><h1 class="title">Staff Tips triathlon</h1></li>
+				<li class="color-2"><h1 class="title">Why I love the race</h1></li>
+				<li class="color-2"><h1 class="title">Overral Positions</h1></li>
+				<li class="color-2"><h1 class="title">Staff Tips triathlon</h1></li>
+				<li class="color-2"><h1 class="title">Why I love the race</h1></li>
+				<li class="color-5"><h1 class="title">Follow the Race</h1></li>
+				<li class="color-2"><h1 class="title">New Skipper</h1></li>
+				<li class="color-1"><h1 class="title">Live From Race Control</h1></li>
+				<li class="color-4"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-6"><h1 class="title">Tom Smith</h1></li>
+				<li class="color-2"><h1 class="title">Overral Positions</h1></li>
+				<li class="color-3"><h1 class="title">Staff Tips triathlon</h1></li>
+				<li class="color-1"><h1 class="title">Why I love the race</h1></li>
+				<li class="color-5"><h1 class="title">Follow the Race</h1></li>
+				<li class="color-2"><h1 class="title">New Skipper</h1></li>
+				<li class="color-3"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-1"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-5"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-2"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-1"><h1 class="title">Meet Alicante</h1></li>
+				<li class="color-4"><h1 class="title">Meet Alicante</h1></li>
+<!-- 				<li class="color-6">15</li>
+				<li class="color-2">16</li> -->
+			</ul>
+		</div>
+
+	</div>
+</body>
+</html>
